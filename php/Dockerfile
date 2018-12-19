@@ -5,13 +5,15 @@ RUN apt-get update \
     build-essential locales acl mailutils wget zip unzip \
     gnupg gnupg1 gnupg2
 
-RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++
+RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ libpng-dev
 RUN docker-php-ext-configure intl
-RUN docker-php-ext-install intl
-RUN docker-php-ext-install opcache
-RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip
 RUN pecl install apcu-5.1.5 && docker-php-ext-enable apcu
 RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+RUN apt-get install -y fontconfig libfreetype6 libjpeg62-turbo libx11-6 libxcb1 libxext6 libxrender1 xfonts-75dpi xfonts-base
+RUN wget https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb
+RUN dpkg -i wkhtmltox_0.12.5-1.stretch_amd64.deb
 
 COPY php.ini /usr/local/etc/php/php.ini
 COPY php-fpm-pool.conf /etc/php/7.2.13/pool.d/www.conf
