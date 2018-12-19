@@ -9,11 +9,10 @@ RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ libpng-dev
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip
 RUN pecl install apcu-5.1.5 && docker-php-ext-enable apcu
-RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 RUN apt-get install -y fontconfig libfreetype6 libjpeg62-turbo libx11-6 libxcb1 libxext6 libxrender1 xfonts-75dpi xfonts-base
-RUN wget https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb
-RUN dpkg -i wkhtmltox_0.12.5-1.stretch_amd64.deb
+COPY wkhtmltox_0.12.5-1.stretch_amd64.deb /tmp
+RUN dpkg -i /tmp/wkhtmltox_0.12.5-1.stretch_amd64.deb
 
 COPY php.ini /usr/local/etc/php/php.ini
 COPY php-fpm-pool.conf /etc/php/7.2.13/pool.d/www.conf
@@ -21,15 +20,20 @@ COPY php-fpm-pool.conf /etc/php/7.2.13/pool.d/www.conf
 RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
    mv composer.phar /usr/local/bin/composer
 
-RUN groupadd dev -g 999
-RUN useradd dev -g dev -d /home/dev -m
-
 RUN rm -rf /var/lib/apt/lists/*
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen && \
     locale-gen
 
+RUN pecl install xdebug; \
+    docker-php-ext-enable xdebug; \
+
+RUN echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+    echo "display_startup_errors = On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+    echo "display_errors = On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+    echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini;
+
 WORKDIR /var/www/
 
-EXPOSE 9000
+#EXPOSE 9000
 CMD ["php-fpm"]

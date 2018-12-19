@@ -20,6 +20,8 @@ services:
           - /home/gponty/docker/www:/var/www
         environment:
           - maildev_host=maildev
+          - PHP_IDE_CONFIG=serverName=docker-server
+          - XDEBUG_CONFIG=remote_host=192.168.1.47 remote_port=9001
         depends_on:
           - maildev
           - mysql
