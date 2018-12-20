@@ -4,9 +4,9 @@ services:
         build: apache
         container_name: apache
         ports:
-          - 80:80
+          - 82:80
         volumes:
-          - /home/gponty/docker/stack/apaphp/apache/vhosts:/etc/apache2/sites-enabled
+          - /home/gponty/docker/stack/apaphp/vhosts:/etc/apache2/sites-enabled
           - /home/gponty/docker/www:/var/www
         depends_on:
           - php
@@ -21,7 +21,7 @@ services:
         environment:
           - maildev_host=maildev
           - PHP_IDE_CONFIG=serverName=docker-server
-          - XDEBUG_CONFIG=remote_host=192.168.1.47 remote_port=9001
+          - XDEBUG_CONFIG=remote_port=9001
         depends_on:
           - maildev
           - mysql
@@ -31,14 +31,14 @@ services:
         image: djfarrelly/maildev
         container_name: maildev
         ports:
-          - 8001:80
+          - 8002:80
         restart: always
 
     mysql:
       container_name: mysql
       image: mysql
       ports:
-        - 3306:3306
+        - 3307:3306
       command: --default-authentication-plugin=mysql_native_password
       restart: always
       environment:
