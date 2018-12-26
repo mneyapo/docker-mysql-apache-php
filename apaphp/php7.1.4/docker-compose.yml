@@ -10,8 +10,9 @@ services:
           - /home/gponty/docker/www:/var/www
         depends_on:
           - php
-          - mysql
         restart: always
+        networks:
+          - mysql_some-net
 
     php:
         build: php
@@ -23,7 +24,10 @@ services:
           - maildev_host=maildev
           - PHP_IDE_CONFIG=serverName=docker-server
           - XDEBUG_CONFIG=remote_port=9001
-        depends_on:
-          - maildev
-          - mysql
         restart: always
+        networks:
+          - mysql_some-net
+
+networks:
+  mysql_some-net:
+    external: true
