@@ -2,7 +2,7 @@ version: '2'
 services:
     apache:
         build: apache
-        container_name: apache
+        container_name: apache7213
         ports:
           - 82:80
         volumes:
@@ -10,39 +10,24 @@ services:
           - /home/gponty/docker/www:/var/www
         depends_on:
           - php
-          - mysql
         restart: always
+        networks:
+          - mysql_some-net
 
     php:
         build: php
-        container_name: php
+        container_name: php7213
         volumes:
           - /home/gponty/docker/www:/var/www
+          - /home/gponty/.ssh:/root/.ssh
         environment:
           - maildev_host=maildev
           - PHP_IDE_CONFIG=serverName=docker-server
-          - XDEBUG_CONFIG=remote_port=9001
-        depends_on:
-          - maildev
-          - mysql
+          - XDEBUG_CONFIG=remote_port=9002
         restart: always
+        networks:
+          - mysql_some-net
 
-    maildev:
-        image: djfarrelly/maildev
-        container_name: maildev
-        ports:
-          - 8002:80
-        restart: always
-
-    mysql:
-      container_name: mysql
-      image: mysql
-      ports:
-        - 3307:3306
-      command: --default-authentication-plugin=mysql_native_password
-      restart: always
-      environment:
-        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-        - MYSQL_USER=root
-      volumes:
-        - /home/gponty/docker/data/mysql:/var/lib/mysql
+networks:
+  mysql_some-net:
+    external: true

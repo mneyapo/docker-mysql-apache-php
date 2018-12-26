@@ -7,7 +7,7 @@ RUN apt-get update \
 
 RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ libpng-dev
 RUN docker-php-ext-configure intl
-RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip
+RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip calendar
 RUN pecl install apcu-5.1.5 && docker-php-ext-enable apcu
 
 RUN apt-get install -y fontconfig libfreetype6 libjpeg62-turbo libx11-6 libxcb1 libxext6 libxrender1 xfonts-75dpi xfonts-base
@@ -36,5 +36,5 @@ RUN echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/docker-php-ext-x
 
 WORKDIR /var/www/
 
-#EXPOSE 9000
+EXPOSE 9002
 CMD ["php-fpm"]
