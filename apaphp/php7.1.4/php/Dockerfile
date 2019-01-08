@@ -6,7 +6,7 @@ RUN apt-get update \
     fontconfig libfreetype6 libjpeg62-turbo libx11-6 libxcb1 libxext6 libxrender1 xfonts-75dpi xfonts-base;
 
 RUN docker-php-ext-configure intl
-RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip
+RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip http
 RUN pecl install apcu-5.1.5 && docker-php-ext-enable apcu
 
 COPY wkhtmltox_0.12.5-1.jessie_amd64.deb /tmp

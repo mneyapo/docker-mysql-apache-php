@@ -4,7 +4,7 @@ services:
         build: apache
         container_name: apache714
         ports:
-          - 80:80
+          - 8071:80
         volumes:
           - /home/gponty/docker/stack/apaphp/vhosts:/etc/apache2/sites-enabled
           - /home/gponty/docker/www:/var/www
