@@ -1,0 +1,50 @@
+version: '2'
+services:
+    php72:
+        build: php72
+        container_name: php72
+        ports:
+          - "8072:80"
+        volumes:
+            - ./vhosts:/etc/apache2/sites-enabled
+            - /home/gponty/docker/www:/var/www
+            - /home/gponty/.ssh:/root/.ssh
+        environment:
+          - maildev_host=maildev
+          - PHP_IDE_CONFIG=serverName=docker-server
+          - XDEBUG_CONFIG=remote_port=9072
+
+    php71:
+        build: php71
+        container_name: php71
+        ports:
+          - "8071:80"
+        volumes:
+            - ./vhosts:/etc/apache2/sites-enabled
+            - /home/gponty/docker/www:/var/www
+            - /home/gponty/.ssh:/root/.ssh
+        environment:
+          - maildev_host=maildev
+          - PHP_IDE_CONFIG=serverName=docker-server
+          - XDEBUG_CONFIG=remote_port=9071
+
+    mysql:
+      container_name: mysql
+      image: mysql
+      ports:
+        - "3306:3306"
+      command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      restart: always
+      environment:
+        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+        - MYSQL_USER=root
+      volumes:
+        - /home/gponty/docker/data/mysql:/var/lib/mysql
+
+    maildev:
+        image: djfarrelly/maildev
+        container_name: maildev
+        ports:
+          - "8001:80"
+          - "1025:25"
+        restart: always
