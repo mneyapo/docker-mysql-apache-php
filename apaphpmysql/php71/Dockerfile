@@ -1,5 +1,7 @@
 FROM php:7.1-apache
 
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends vim curl debconf git apt-transport-https apt-utils \
     build-essential locales acl mailutils wget zip unzip zlib1g-dev libicu-dev g++ libpng-dev libpcre3-dev \
@@ -35,5 +37,3 @@ RUN echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/docker-php-ext-x
     echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini;
 
 WORKDIR /var/www/
-
-EXPOSE 9071
