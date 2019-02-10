@@ -49,4 +49,6 @@ RUN echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/docker-php-ext-x
     echo "xdebug.remote_connect_back=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
     echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini;
 
+RUN addgroup --system gponty --gid 1000 && adduser --system gponty --uid 1000 --ingroup gponty
+
 WORKDIR /var/www/
