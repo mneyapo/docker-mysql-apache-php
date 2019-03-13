@@ -1,6 +1,7 @@
 FROM php:7.2-apache
 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+RUN a2enmod rewrite
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends vim curl debconf git apt-transport-https apt-utils \
@@ -21,6 +22,11 @@ RUN pecl install sqlsrv
 RUN docker-php-ext-enable sqlsrv
 RUN pecl install pdo_sqlsrv
 RUN docker-php-ext-enable pdo_sqlsrv
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get update && apt-get install -y nodejs
 
 RUN apt-get update && apt-get install -y libc-client-dev libkrb5-dev && rm -r /var/lib/apt/lists/*
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
