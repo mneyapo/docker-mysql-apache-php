@@ -9,7 +9,7 @@ services:
         volumes:
             - ./vhosts:/etc/apache2/sites-enabled
             - /home/gponty/docker/www:/var/www
-            - /home/gponty/.ssh:/root/.ssh
+            - /home/gponty/.ssh:/home/gponty/.ssh
         environment:
           - maildev_host=maildev
           - PHP_IDE_CONFIG=serverName=docker-server
@@ -24,7 +24,7 @@ services:
         volumes:
             - ./vhosts:/etc/apache2/sites-enabled
             - /home/gponty/docker/www:/var/www
-            - /home/gponty/.ssh:/root/.ssh
+            - /home/gponty/.ssh:/home/gponty/.ssh
         environment:
           - maildev_host=maildev
           - PHP_IDE_CONFIG=serverName=docker-server
