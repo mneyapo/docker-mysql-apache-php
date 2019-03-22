@@ -3,6 +3,7 @@ FROM php:7.1-apache
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 RUN a2enmod rewrite
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends vim curl debconf git apt-transport-https apt-utils \
     build-essential locales acl mailutils wget zip unzip zlib1g-dev libicu-dev g++ libpng-dev libpcre3-dev \
@@ -47,6 +48,7 @@ RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
    mv composer.phar /usr/local/bin/composer
 
 RUN addgroup --system gponty --gid 1000 && adduser --system gponty --uid 1000 --ingroup gponty
+RUN usermod -a -G www-data gponty
 
 USER gponty
 RUN /usr/local/bin/composer global require "banago/phploy"
