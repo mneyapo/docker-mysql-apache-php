@@ -47,6 +47,7 @@ RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
    mv composer.phar /usr/local/bin/composer
 
 RUN addgroup --system gponty --gid 1000 && adduser --system gponty --uid 1000 --ingroup gponty
+RUN usermod -a -G www-data gponty
 
 USER gponty
 RUN /usr/local/bin/composer global require "banago/phploy"
