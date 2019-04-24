@@ -30,8 +30,6 @@ RUN apt-get update && apt-get install -y yarn
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get update && apt-get install -y nodejs
 
-RUN apt-get update && apt-get install -y weboob
-
 RUN apt-get update && apt-get install -y libc-client-dev libkrb5-dev && rm -r /var/lib/apt/lists/*
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
 RUN docker-php-ext-install imap
@@ -49,11 +47,6 @@ RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
    mv composer.phar /usr/local/bin/composer
 
 RUN addgroup --system gponty --gid 1000 && adduser --system gponty --uid 1000 --ingroup gponty
-
-# Install Google Chrome
-#RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-#RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-#RUN apt-get update && apt-get install -y google-chrome-stable
 
 RUN apt-get update && apt-get install -y zlib1g-dev chromium && docker-php-ext-install zip
 ENV PANTHER_NO_SANDBOX 1
