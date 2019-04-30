@@ -7,7 +7,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends vim curl debconf git apt-transport-https apt-utils \
     build-essential locales acl mailutils wget zip unzip zlib1g-dev libicu-dev g++ libpng-dev libpcre3-dev \
     fontconfig libfreetype6 libjpeg62-turbo libx11-6 libxcb1 libxext6 libxrender1 xfonts-75dpi xfonts-base \
-    libldb-dev libldap2-dev gnupg gnupg1 gnupg2  g++ libssl1.0 libc6;
+    libldb-dev libldap2-dev gnupg gnupg1 gnupg2  g++ libssl1.0 libc6 libxml2-dev;
 
 RUN rm -rf /var/lib/apt/lists/*
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
@@ -35,7 +35,7 @@ RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
 RUN docker-php-ext-install imap
 
 RUN docker-php-ext-configure intl
-RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip calendar ldap
+RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip calendar ldap soap
 RUN pecl install apcu-5.1.5 && docker-php-ext-enable apcu
 
 COPY wkhtmltox_0.12.5-1.stretch_amd64.deb /tmp
