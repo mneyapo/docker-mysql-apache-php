@@ -9,6 +9,9 @@ RUN apt-get update \
     fontconfig libfreetype6 libjpeg62-turbo libx11-6 libxcb1 libxext6 libxrender1 xfonts-75dpi xfonts-base \
     libldb-dev libldap2-dev gnupg gnupg1 gnupg2  g++ libssl1.0 libc6;
 
+RUN git config --global user.email "g.ponty@dev-web.io"
+RUN git config --global user.name "Guillaume Ponty"
+
 RUN rm -rf /var/lib/apt/lists/*
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen && \
@@ -23,6 +26,11 @@ RUN pecl install sqlsrv
 RUN docker-php-ext-enable sqlsrv
 RUN pecl install pdo_sqlsrv
 RUN docker-php-ext-enable pdo_sqlsrv
+
+RUN apt-get update
+RUN apt-get install -y libssh2-1-dev libssh2-1
+RUN pecl install ssh2-1.1.2
+RUN docker-php-ext-enable ssh2
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
