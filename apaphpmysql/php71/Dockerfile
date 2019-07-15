@@ -61,6 +61,9 @@ USER gponty
 RUN /usr/local/bin/composer global require "banago/phploy"
 ENV PATH /home/gponty/.composer/vendor/bin:$PATH
 
+RUN git config --global user.email "g.ponty@dev-web.io"
+RUN git config --global user.name "Guillaume Ponty"
+
 USER root
 
 RUN pecl install xdebug;

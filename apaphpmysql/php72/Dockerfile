@@ -9,9 +9,6 @@ RUN apt-get update \
     fontconfig libfreetype6 libjpeg62-turbo libx11-6 libxcb1 libxext6 libxrender1 xfonts-75dpi xfonts-base \
     libldb-dev libldap2-dev gnupg gnupg1 gnupg2  g++ libssl1.0 libc6;
 
-RUN git config --global user.email "g.ponty@dev-web.io"
-RUN git config --global user.name "Guillaume Ponty"
-
 RUN rm -rf /var/lib/apt/lists/*
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen && \
@@ -55,6 +52,7 @@ RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
    mv composer.phar /usr/local/bin/composer
 
 RUN addgroup --system gponty --gid 1000 && adduser --system gponty --uid 1000 --ingroup gponty
+RUN usermod -a -G www-data gponty
 
 RUN apt-get update && apt-get install -y zlib1g-dev chromium && docker-php-ext-install zip
 ENV PANTHER_NO_SANDBOX 1
@@ -62,6 +60,9 @@ ENV PANTHER_NO_SANDBOX 1
 USER gponty
 RUN /usr/local/bin/composer global require "banago/phploy"
 ENV PATH /home/gponty/.composer/vendor/bin:$PATH
+
+RUN git config --global user.email "g.ponty@dev-web.io"
+RUN git config --global user.name "Guillaume Ponty"
 
 USER root
 
